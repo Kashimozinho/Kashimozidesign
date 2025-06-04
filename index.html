@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetinho - Kashimo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img class="logo" src="src/imagens/Logotipo_para_Área_de__Tecnologia_e_Games_Moderno_Branco_e_Vermelho-removebg-preview.png" alt="Logo">
+        <nav class="navbar">
+            <a href="#produtos">Produtos</a>
+            <a href="https://instagram.com/kashimo.__" target="_blank">Instagram</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 id="produtos">PRODUTOS</h1>
+
+        <div class="filtros">
+            <div>
+                <label for="categoria">Categoria</label>
+                <select id="categoria">
+                    <option value="">Selecione uma carta</option>
+                    <option value="ANIME">ANIME</option>
+                    <option value="SEMI-REALISTA">SEMI REALISTA</option>
+                    <option value="DECLARAÇÃO-DE-AMOR">DECLARAÇÃO DE AMOR</option>
+                    <option value="LOGOTIPO">LOGOTIPO</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="preco">Preço máximo</label>
+                <input type="text" id="preco" placeholder="Ex: R$100">
+            </div>
+
+            <button class="btn-filtrar">Aplicar Filtros</button>
+        </div>
+
+        <div class="cartas">
+            <div class="carta" data-categoria="Anime" data-preco="10,00">
+                <img src="src/imagens/3caedd7e590be51b7a24330a8e0a27e7.jpg" alt="Yasuo">
+                <div class="informacoes">
+                    <h2>Estilo Anime</h2>
+                    <span class="categoria">Anime</span>
+                    <span class="preco">R$10,00</span>
+                    <button class="btn-comprar">Comprar</button>
+                </div>
+            </div>
+
+            <div class="carta" data-categoria="SEMI-REALISTA" data-preco="15,00">
+                <img src="src/imagens/efefe8dcb0ae332f0ec59af88c8af121.jpg" alt="SEMI-REALISTA">
+                <div class="informacoes">
+                    <h2>Semi Realista</h2>
+                    <span class="categoria">Semi Realista</span>
+                    <span class="preco">R$15,00</span>
+                    <button class="btn-comprar">Comprar</button>
+                </div>
+            </div>
+
+            <div class="carta" data-categoria="DECLARAÇÃO-DE-AMOR" data-preco="1000">
+                <img src="src/imagens/6bd89fa18fa3dae39734ae37d6eafb1e.jpg" alt="DECLARAÇÃO-DE-AMOR">
+                <div class="informacoes">
+                    <h2>Declaração de amor</h2>
+                    <span class="categoria">Declaração de amor</span>
+                    <span class="preco">R$5,00</span>
+                    <button class="btn-comprar">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+document.querySelector('.btn-filtrar').addEventListener('click', function() {
+    const categoriaFiltro = document.getElementById('categoria').value.toLowerCase();
+    const precoFiltro = parseFloat(document.getElementById('preco').value.replace('R$', '').trim()) || Infinity;
+
+    const cartas = document.querySelectorAll('.carta');
+
+    cartas.forEach(carta => {
+        const categoriaCarta = carta.getAttribute('data-categoria').toLowerCase();
+        const precoCarta = parseFloat(carta.getAttribute('data-preco'));
+
+        // Verifica se a carta bate com os filtros
+        const categoriaOk = categoriaFiltro === '' || categoriaCarta === categoriaFiltro;
+        const precoOk = precoCarta <= precoFiltro;
+
+        if (categoriaOk && precoOk) {
+            carta.style.display = 'block';
+        } else {
+            carta.style.display = 'none';
+        }
+    });
+});
+</script>
+
+</body>
+</html>
