@@ -1,99 +1,133 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projetinho - Kashimo</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kashimozin Design</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
+
+  <!-- Cabeçalho com logo e formulário de login ao lado -->
+  <header>
+    <div class="header-top">
+      <a href="#produtos">
         <img class="logo" src="src/imagens/Logotipo_para_Área_de__Tecnologia_e_Games_Moderno_Branco_e_Vermelho-removebg-preview.png" alt="Logo">
-        <nav class="navbar">
-            <a href="#produtos">Produtos</a>
-            <a href="https://instagram.com/kashimo.__" target="_blank">Instagram</a>
-        </nav>
-    </header>
+      </a>
+      <div class="login-container-header">
+        <form id="form-login">
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="password" id="senha" placeholder="Senha" required />
+          <button type="submit" class="btn-comprar btn-login">Entrar</button>
+          <p class="texto-ajuda-login">
+            <a href="register.html">Cadastrar</a>
+          </p>
+        </form>
+      </div>
+    </div>
 
-    <main>
-        <h1 id="produtos">PRODUTOS</h1>
+    <!-- Navbar permanece abaixo -->
+    <nav class="navbar">
+      <a href="#produtos">Produtos</a>
+      <a href="https://instagram.com/kashimo.__" target="_blank">Instagram</a>
+      <a href="checkout.html">🛒 Carrinho</a>
+    </nav>
+  </header>
 
-        <div class="filtros">
-            <div>
-                <label for="categoria">Categoria</label>
-                <select id="categoria">
-                    <option value="">Selecione uma carta</option>
-                    <option value="ANIME">ANIME</option>
-                    <option value="SEMI-REALISTA">SEMI REALISTA</option>
-                    <option value="DECLARAÇÃO-DE-AMOR">DECLARAÇÃO DE AMOR</option>
-                    <option value="LOGOTIPO">LOGOTIPO</option>
-                </select>
-            </div>
+  <main>
+    <h1 id="produtos">PRODUTOS</h1>
 
-            <div>
-                <label for="preco">Preço máximo</label>
-                <input type="text" id="preco" placeholder="Ex: R$100">
-            </div>
+    <div class="filtros">
+      <div>
+        <label for="categoria">Categoria</label>
+        <select id="categoria">
+          <option value="">Selecione uma carta</option>
+          <option value="anime">ANIME</option>
+          <option value="semi-realista">SEMI REALISTA</option>
+          <option value="declaração-de-amor">DECLARAÇÃO DE AMOR</option>
+          <option value="logotipo">LOGOTIPO</option>
+        </select>
+      </div>
 
-            <button class="btn-filtrar">Aplicar Filtros</button>
+      <div>
+        <label for="preco">Preço máximo</label>
+        <input type="text" id="preco" placeholder="Ex: 100">
+      </div>
+
+      <button class="btn-filtrar">Aplicar Filtros</button>
+    </div>
+
+    <div class="cartas">
+      <div class="carta" data-categoria="anime" data-preco="10">
+        <img src="src/imagens/3caedd7e590be51b7a24330a8e0a27e7.jpg" alt="Estilo Anime">
+        <div class="informacoes">
+          <h2>Estilo Anime</h2>
+          <span class="categoria">Anime</span>
+          <span class="preco">R$10,00</span>
+          <button class="btn-comprar" data-nome="Estilo Anime" data-preco="10">Comprar</button>
         </div>
+      </div>
 
-        <div class="cartas">
-            <div class="carta" data-categoria="Anime" data-preco="10,00">
-                <img src="src/imagens/3caedd7e590be51b7a24330a8e0a27e7.jpg" alt="Yasuo">
-                <div class="informacoes">
-                    <h2>Estilo Anime</h2>
-                    <span class="categoria">Anime</span>
-                    <span class="preco">R$10,00</span>
-                    <button class="btn-comprar">Comprar</button>
-                </div>
-            </div>
-
-            <div class="carta" data-categoria="SEMI-REALISTA" data-preco="15,00">
-                <img src="src/imagens/efefe8dcb0ae332f0ec59af88c8af121.jpg" alt="SEMI-REALISTA">
-                <div class="informacoes">
-                    <h2>Semi Realista</h2>
-                    <span class="categoria">Semi Realista</span>
-                    <span class="preco">R$15,00</span>
-                    <button class="btn-comprar">Comprar</button>
-                </div>
-            </div>
-
-            <div class="carta" data-categoria="DECLARAÇÃO-DE-AMOR" data-preco="1000">
-                <img src="src/imagens/6bd89fa18fa3dae39734ae37d6eafb1e.jpg" alt="DECLARAÇÃO-DE-AMOR">
-                <div class="informacoes">
-                    <h2>Declaração de amor</h2>
-                    <span class="categoria">Declaração de amor</span>
-                    <span class="preco">R$5,00</span>
-                    <button class="btn-comprar">Comprar</button>
-                </div>
-            </div>
+      <div class="carta" data-categoria="semi-realista" data-preco="15">
+        <img src="src/imagens/efefe8dcb0ae332f0ec59af88c8af121.jpg" alt="Semi Realista">
+        <div class="informacoes">
+          <h2>Semi Realista</h2>
+          <span class="categoria">Semi Realista</span>
+          <span class="preco">R$15,00</span>
+          <button class="btn-comprar" data-nome="Semi Realista" data-preco="15">Comprar</button>
         </div>
-    </main>
+      </div>
 
-    <script>
-document.querySelector('.btn-filtrar').addEventListener('click', function() {
-    const categoriaFiltro = document.getElementById('categoria').value.toLowerCase();
-    const precoFiltro = parseFloat(document.getElementById('preco').value.replace('R$', '').trim()) || Infinity;
+      <div class="carta" data-categoria="declaração-de-amor" data-preco="5">
+        <img src="src/imagens/6bd89fa18fa3dae39734ae37d6eafb1e.jpg" alt="Declaração de Amor">
+        <div class="informacoes">
+          <h2>Declaração de Amor</h2>
+          <span class="categoria">Declaração de Amor</span>
+          <span class="preco">R$5,00</span>
+          <button class="btn-comprar" data-nome="Declaração de Amor" data-preco="5">Comprar</button>
+        </div>
+      </div>
+    </div>
+  </main>
 
-    const cartas = document.querySelectorAll('.carta');
+  <script>
+    // ---------- FILTRO ----------
+    document.querySelector('.btn-filtrar').addEventListener('click', function() {
+      const categoriaFiltro = document.getElementById('categoria').value.toLowerCase();
+      const precoInput = document.getElementById('preco').value.trim();
+      const precoFiltro = precoInput ? parseFloat(precoInput) : Infinity;
 
-    cartas.forEach(carta => {
-        const categoriaCarta = carta.getAttribute('data-categoria').toLowerCase();
-        const precoCarta = parseFloat(carta.getAttribute('data-preco'));
+      document.querySelectorAll('.carta').forEach(carta => {
+        const cat = carta.dataset.categoria.toLowerCase();
+        const preco = parseFloat(carta.dataset.preco);
 
-        // Verifica se a carta bate com os filtros
-        const categoriaOk = categoriaFiltro === '' || categoriaCarta === categoriaFiltro;
-        const precoOk = precoCarta <= precoFiltro;
+        const categoriaOk = !categoriaFiltro || cat === categoriaFiltro;
+        const precoOk = preco <= precoFiltro;
 
-        if (categoriaOk && precoOk) {
-            carta.style.display = 'block';
-        } else {
-            carta.style.display = 'none';
-        }
+        carta.style.display = (categoriaOk && precoOk) ? 'block' : 'none';
+      });
     });
-});
-</script>
+
+    // ---------- CARRINHO ----------
+    document.querySelectorAll('.btn-comprar').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const nome = btn.dataset.nome;
+        const preco = parseFloat(btn.dataset.preco);
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        carrinho.push({ nome, preco });
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        window.location.href = 'checkout.html';
+      });
+    });
+
+    // ---------- LOGIN ----------
+    document.getElementById('form-login')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert(`Bem-vindo, ${document.getElementById('email').value}!`);
+      // Caso queira redirecionar após login:
+      // window.location.href = 'index.html';
+    });
+  </script>
 
 </body>
 </html>

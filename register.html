@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro - Kashimozin Design</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- SDK do EmailJS -->
+  <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("SEU_USER_ID_DO_EMAILJS"); 
+      // Substitua "SEU_USER_ID_DO_EMAILJS" pelo seu User ID obtido no painel do EmailJS
+    })();
+  </script>
+</head>
+<body>
+
+  <header>
+    <a href="index.html">
+      <img class="logo" src="src/imagens/Logotipo_para_Área_de__Tecnologia_e_Games_Moderno_Branco_e_Vermelho-removebg-preview.png" alt="Logo">
+    </a>
+    <nav class="navbar">
+      <a href="index.html#produtos">Produtos</a>
+      <a href="https://instagram.com/kashimo.__" target="_blank">Instagram</a>
+      <a href="checkout.html">🛒 Carrinho</a>
+    </nav>
+  </header>
+
+  <main class="login-container">
+    <h1>Cadastro</h1>
+    <form id="form-cadastro">
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" placeholder="Seu nome completo" required />
+
+      <label for="email-cad">Email</label>
+      <input type="email" id="email-cad" placeholder="seu@email.com" required />
+
+      <label for="senha-cad">Senha</label>
+      <input type="password" id="senha-cad" placeholder="••••••••" required />
+
+      <label for="senha-confirm">Confirmar Senha</label>
+      <input type="password" id="senha-confirm" placeholder="••••••••" required />
+
+      <button type="submit" class="btn-comprar">Cadastrar</button>
+    </form>
+
+    <p class="texto-ajuda">
+      Já tem conta? <a href="login.html">Faça login aqui</a>
+    </p>
+  </main>
+
+  <script>
+    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email-cad').value.trim();
+      const senha = document.getElementById('senha-cad').value;
+      const senhaConfirm = document.getElementById('senha-confirm').value;
+
+      if (senha !== senhaConfirm) {
+        alert('As senhas não coincidem.');
+        return;
+      }
+
+      // Aqui você pode salvar os dados localmente ou enviar a um backend, se tiver.
+      // Para demo, vamos usar EmailJS para enviar e-mail de confirmação.
+
+      const templateParams = {
+        to_name: nome,
+        to_email: email,
+        message: `Olá ${nome}, seu cadastro foi realizado com sucesso!`
+      };
+
+      emailjs.send('SEU_SERVICE_ID', 'SEU_TEMPLATE_ID', templateParams)
+        .then(function(response) {
+          alert('Cadastro realizado! Um e-mail de confirmação foi enviado.');
+          document.getElementById('form-cadastro').reset();
+          window.location.href = 'login.html'; 
+        }, function(error) {
+          console.error('Erro ao enviar e-mail:', error);
+          alert('Ocorreu um erro ao enviar o e-mail de confirmação. Tente novamente.');
+        });
+    });
+  </script>
+  
+
+</body>
+</html>

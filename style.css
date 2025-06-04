@@ -1,142 +1,420 @@
+/* Reset e fonte padrão */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    background-color: #f0f0f0;
-    padding: 20px;
+  background-color: #f7f7f7;
+  color: #333;
 }
 
+/* Cabeçalho */
 header {
-    text-align: center;
-    margin-bottom: 20px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding-bottom: 10px;
 }
 
-header .logo {
-    max-width: 250px;
-    margin-bottom: 10px;
+/* Container superior do header: logo + login */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
 }
 
+/* Logo */
+.logo {
+  width: 200px;
+  cursor: pointer;
+}
+
+/* Formulário de login no header */
+.login-container-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.login-container-header form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.login-container-header input[type="email"],
+.login-container-header input[type="password"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 140px;
+}
+
+.btn-login {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.btn-login:hover {
+  background-color: darkred;
+}
+
+.texto-ajuda-login {
+  margin-top: 5px;
+  font-size: 0.8rem;
+}
+
+.texto-ajuda-login a {
+  color: red;
+  text-decoration: none;
+}
+
+.texto-ajuda-login a:hover {
+  text-decoration: underline;
+}
+
+/* Navbar */
 .navbar {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    background-color: #333;
-    padding: 10px 0;
-    border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 0;
 }
 
 .navbar a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 15px;
-    background-color: red;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+  text-decoration: none;
+  color: white;
+  background-color: red;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background 0.3s;
 }
 
 .navbar a:hover {
-    background-color: darkred;
+  background-color: darkred;
 }
 
-h1 {
-    text-align: center;
-    margin: 30px 0;
+/* Título Produtos */
+main h1 {
+  text-align: center;
+  margin: 40px 0 20px;
+  font-size: 2.5rem;
+  color: #111;
 }
 
+/* Filtros */
 .filtros {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
 .filtros label {
-    margin-right: 5px;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-.filtros input,
-.filtros select {
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.filtros select,
+.filtros input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 180px;
 }
 
 .btn-filtrar {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  height: 42px;
+  align-self: center;
 }
 
 .btn-filtrar:hover {
-    background-color: darkred;
+  background-color: darkred;
 }
 
+/* Cartas com Flexbox */
 .cartas {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
 }
 
 .carta {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    overflow: hidden;
-    width: 250px;
-    text-align: center;
-    transition: transform 0.3s;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  width: 280px;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s;
 }
 
 .carta:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .carta img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .informacoes {
-    padding: 15px;
+  padding: 15px;
 }
 
 .informacoes h2 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
 }
 
 .informacoes .categoria {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+  display: block;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 5px;
 }
 
 .informacoes .preco {
-    display: block;
-    margin-bottom: 10px;
+  display: block;
+  margin-bottom: 10px;
+  color: #111;
+  font-size: 1.1rem;
 }
 
-.btn-comprar {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.informacoes .btn-comprar {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.btn-comprar:hover {
-    background-color: darkred;
+.informacoes .btn-comprar:hover {
+  background-color: darkred;
+}
+
+/* Página de Checkout */
+.checkout {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.checkout h1,
+.checkout h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.itens-carrinho ul {
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+.itens-carrinho li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.total {
+  text-align: right;
+  font-weight: bold;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.dados-cliente form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dados-cliente label {
+  font-weight: bold;
+}
+
+.dados-cliente input,
+.dados-cliente select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.dados-cliente button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: bold;
+}
+
+.dados-cliente button:hover {
+  background-color: darkred;
+}
+
+/* Ajuste geral Responsivo */
+@media (max-width: 768px) {
+  .header-top {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .login-container-header form {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .filtros {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container-header {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .login-container-header input,
+  .login-container-header .btn-login {
+    width: 100%;
+  }
+
+  .filtros select,
+  .filtros input {
+    width: 140px;
+  }
+
+  .carta {
+    width: 90%;
+  }
+}
+
+/* ====== Estilos para a página de Cadastro ====== */
+
+.login-container {
+  max-width: 400px;
+  margin: 60px auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  color: #111;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-container label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.login-container input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.login-container select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.login-container .btn-comprar {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-container .btn-comprar:hover {
+  background-color: darkred;
+}
+
+.login-container .texto-ajuda {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.login-container .texto-ajuda a {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-container .texto-ajuda a:hover {
+  text-decoration: underline;
+}
+
+/* ====== Responsividade ====== */
+@media (max-width: 480px) {
+  .login-container {
+    margin: 40px 20px;
+    padding: 20px;
+  }
+
+  .login-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .login-container input,
+  .login-container select,
+  .login-container .btn-comprar {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
 }
