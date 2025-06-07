@@ -39,3 +39,18 @@ app.post('/cadastrar', async (req, res) => {
 });
 
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
+
+function atualizarTotal() {
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  let soma = carrinho.reduce((acc, item) => acc + item.preco, 0);
+  document.getElementById('totalCompra').textContent = soma.toFixed(2).replace('.', ',');
+}
+
+atualizarTotal();
+
+document.querySelector('.finalizar-compra').addEventListener('click', () => {
+  alert('Compra finalizada! Obrigado por comprar na Kashimozin Design ✨');
+  localStorage.removeItem('carrinho');
+  window.location.href = 'index.html'; // ou qualquer página que queira redirecionar
+});
+

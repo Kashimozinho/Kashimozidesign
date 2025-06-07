@@ -1,50 +1,171 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - Kashimozin Design</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - Kashimozin Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <header>
-        <img class="logo" src="src/imagens/Logotipo_para_Área_de__Tecnologia_e_Games_Moderno_Branco_e_Vermelho-removebg-preview.png" alt="Logo">
-        <nav class="navbar">
-            <a href="index.html">Produtos</a>
-            <a href="https://instagram.com/kashimo.__" target="_blank">Instagram</a>
-        </nav>
-    </header>
+  <div class="checkout">
+    <h1>Carrinho de Compras</h1>
 
-    <main>
-        <h1>Finalizar Pedido</h1>
+    <section class="itens-carrinho">
+      <h2>Itens</h2>
+      <ul id="lista-itens">
+        <!-- Itens aparecem aqui -->
+      </ul>
+      <div class="total" id="total">Total: R$0,00</div>
+    </section>
 
-        <section class="dados-cliente">
-            <h2>Seus Dados</h2>
-            <form>
-                <label for="nome">Nome completo:</label>
-                <input type="text" id="nome" placeholder="Digite seu nome" required>
+    <section class="dados-cliente">
+      <h2>Dados para Entrega</h2>
+      <form id="form-checkout">
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="Digite seu email" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="email@exemplo.com" required />
 
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" placeholder="Digite seu endereço" required>
+        <label for="endereco">Endereço</label>
+        <input type="text" id="endereco" name="endereco" placeholder="Rua, Número, Bairro" required />
 
-                <label for="pagamento">Forma de pagamento:</label>
-                <select id="pagamento" required>
-                    <option value="">Selecione</option>
-                    <option value="pix">PIX</option>
-                    <option value="cartao">Cartão</option>
-                    <option value="boleto">Boleto</option>
-                </select>
+        <label for="cidade">Cidade</label>
+        <input type="text" id="cidade" name="cidade" placeholder="Sua cidade" required />
 
-                <a href="https://www.instagram.com/direct/new/?username=kashimo.__" target="_blank">
-                    <button type="button" class="btn-comprar">Finalizar Pedido</button>
-                </a>
-            </form>
-        </section>
-    </main>
+        <label for="estado">Estado</label>
+        <select id="estado" name="estado" required>
+          <option value="">Selecione o estado</option>
+          <option value="SP">São Paulo</option>
+          <option value="RJ">Rio de Janeiro</option>
+          <option value="MG">Minas Gerais</option>
+          <option value="ES">Espírito Santo</option>
+        </select>
+
+        <button type="submit">Finalizar Compra</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    function formatarPreco(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    const listaItens = document.getElementById('lista-itens');
+    const totalEl = document.getElementById('total');
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    function atualizarCarrinho() {
+      listaItens.innerHTML = '';
+      let somaTotal = 0;
+
+      if (carrinho.length === 0) {
+        listaItens.innerHTML = '<li>Seu carrinho está vazio.</li>';
+        totalEl.textContent = 'Total: R$0,00';
+        return;
+      }
+
+      carrinho.forEach((item, index) => {
+        somaTotal += item.preco;
+        const li = document.createElement('li');
+        li.textContent = `${item.nome} - ${formatarPreco(item.preco)}`;
+
+        // Botão subir
+        const btnSubir = document.createElement('button');
+        btnSubir.textContent = '↑';
+        btnSubir.title = 'Subir item';
+        btnSubir.style.marginLeft = '10px';
+        btnSubir.style.cursor = 'pointer';
+        btnSubir.style.background = 'transparent';
+        btnSubir.style.color = '#0ff';
+        btnSubir.style.border = 'none';
+        btnSubir.style.fontWeight = '700';
+
+        btnSubir.disabled = index === 0;
+        btnSubir.addEventListener('click', () => {
+          if (index > 0) {
+            [carrinho[index], carrinho[index - 1]] = [carrinho[index - 1], carrinho[index]];
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+          }
+        });
+
+        // Botão descer
+        const btnDescer = document.createElement('button');
+        btnDescer.textContent = '↓';
+        btnDescer.title = 'Descer item';
+        btnDescer.style.marginLeft = '5px';
+        btnDescer.style.cursor = 'pointer';
+        btnDescer.style.background = 'transparent';
+        btnDescer.style.color = '#0ff';
+        btnDescer.style.border = 'none';
+        btnDescer.style.fontWeight = '700';
+
+        btnDescer.disabled = index === carrinho.length -1;
+        btnDescer.addEventListener('click', () => {
+          if (index < carrinho.length - 1) {
+            [carrinho[index], carrinho[index + 1]] = [carrinho[index + 1], carrinho[index]];
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+          }
+        });
+
+        // Botão remover
+        const btnRemover = document.createElement('button');
+        btnRemover.textContent = 'Remover';
+        btnRemover.style.marginLeft = '10px';
+        btnRemover.style.cursor = 'pointer';
+        btnRemover.style.background = 'transparent';
+        btnRemover.style.color = '#ff3399';
+        btnRemover.style.border = 'none';
+        btnRemover.style.fontWeight = '700';
+
+        btnRemover.addEventListener('click', () => {
+          carrinho.splice(index, 1);
+          localStorage.setItem('carrinho', JSON.stringify(carrinho));
+          atualizarCarrinho();
+        });
+
+        li.appendChild(btnSubir);
+        li.appendChild(btnDescer);
+        li.appendChild(btnRemover);
+        listaItens.appendChild(li);
+      });
+
+      totalEl.textContent = `Total: ${formatarPreco(somaTotal)}`;
+    }
+
+    atualizarCarrinho();
+
+    document.getElementById('form-checkout').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (carrinho.length === 0) {
+        alert('Seu carrinho está vazio!');
+        return;
+      }
+
+      alert('Compra finalizada com sucesso! Obrigado pela preferência.');
+
+      carrinho = [];
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+      atualizarCarrinho();
+      e.target.reset();
+    });
+  </script>
+
+<div class="resumo-compra">
+  <h3>Resumo Final da Compra</h3>
+  <div class="total-final">Total: R$ <span id="totalCompra">0,00</span></div>
+  
+  <label for="observacoes">Observações (opcional):</label>
+  <textarea id="observacoes" placeholder="Digite aqui alguma informação extra..."></textarea>
+  
+  <button class="finalizar-compra">Finalizar Compra</button>
+</div>
 
 </body>
 </html>
