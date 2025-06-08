@@ -1,56 +1,96 @@
+// server.js
 const express = require('express');
-const nodemailer = require('nodemailer');
+const session = require('express-session');
+const bcrypt = require('bcryptjs');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+const db = new sqlite3.Database('./usuarios.db'); // arquivo local
 
-app.post('/cadastrar', async (req, res) => {
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
+
+app.use(session({
+  secret: 'segredo',
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Cria tabela
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT,
+    email TEXT UNIQUE,
+    password TEXT
+  )`);
+});
+
+// Rotas
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/register.html'));
+});
+
+app.post('/register', async (req, res) => {
   const { nome, email, senha } = req.body;
-  // Aqui você salvaria no seu banco (ou localStorage) a lógica de cadastro real.
-  // Depois, envia o e-mail de confirmação:
-
-  // Crie um transporter SMTP (ex.: Gmail – é preciso ativar “app menos seguro” ou usar OAuth2)
-  let transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: 'SEU_EMAIL@gmail.com',
-      pass: 'SUA_SENHA_APP', // ou app password
-    }
+  const hashedPassword = await bcrypt.hash(senha, 10);
+  db.run('INSERT INTO users (nome, email, password) VALUES (?, ?, ?)', [nome, email, hashedPassword], function(err) {
+    if (err) return res.send('Erro: Email já registrado!');
+    res.redirect('/login');
   });
-
-  const mailOptions = {
-    from: '"Kashimozin Design" <SEU_EMAIL@gmail.com>',
-    to: email,
-    subject: 'Confirmação de Cadastro',
-    text: `Olá ${nome},\n\nSeu cadastro foi realizado com sucesso!\n\nBem-vindo(a) ao Kashimozin Design!`,
-    // ou use html: '<p>Olá <strong>' + nome + '</strong>, seu cadastro foi ...</p>'
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    res.json({ sucesso: true, msg: 'Cadastro realizado e e-mail enviado!' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ sucesso: false, msg: 'Erro ao enviar e-mail.' });
-  }
 });
 
-app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
-
-function atualizarTotal() {
-  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  let soma = carrinho.reduce((acc, item) => acc + item.preco, 0);
-  document.getElementById('totalCompra').textContent = soma.toFixed(2).replace('.', ',');
-}
-
-atualizarTotal();
-
-document.querySelector('.finalizar-compra').addEventListener('click', () => {
-  alert('Compra finalizada! Obrigado por comprar na Kashimozin Design ✨');
-  localStorage.removeItem('carrinho');
-  window.location.href = 'index.html'; // ou qualquer página que queira redirecionar
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
+app.post('/login', (req, res) => {
+  const { email, senha } = req.body;
+  db.get('SELECT * FROM users WHERE email = ?', [email], async (err, user) => {
+    if (err || !user) return res.send('Usuário não encontrado.');
+    const match = await bcrypt.compare(senha, user.password);
+    if (!match) return res.send('Senha incorreta.');
+    req.session.userId = user.id;
+    res.redirect('/dashboard');
+  });
+});
+
+app.get('/dashboard', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login');
+  res.send('<h1>Bem-vindo ao Kashimozin Design</h1><a href="/logout">Sair</a>');
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => res.redirect('/login'));
+});
+
+app.listen(3000, () => console.log('Servidor rodando em http://localhost:3000'));
+
+app.get('/perfil', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login');
+
+  db.get('SELECT nome, email FROM users WHERE id = ?', [req.session.userId], (err, user) => {
+    if (err || !user) return res.send('Erro ao carregar perfil.');
+    res.send(`
+      <h1>Perfil do Usuário</h1>
+      <p><strong>Nome:</strong> ${user.nome}</p>
+      <p><strong>Email:</strong> ${user.email}</p>
+      <a href="/dashboard">Voltar</a> | <a href="/logout">Sair</a>
+    `);
+  });
+});
+
+app.get('/perfil', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login');
+  res.sendFile(path.join(__dirname, 'public/perfil.html'));
+});
+
+app.get('/api/perfil', (req, res) => {
+  if (!req.session.userId) return res.status(401).json({ erro: 'Não logado' });
+  db.get('SELECT nome, email FROM users WHERE id = ?', [req.session.userId], (err, user) => {
+    if (err) return res.status(500).json({ erro: 'Erro no banco de dados' });
+    res.json(user);
+  });
+});

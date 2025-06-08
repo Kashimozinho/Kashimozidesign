@@ -139,5 +139,60 @@
     });
   </script>
 
+<!-- Barra de Ajuda -->
+<div id="help-bar">
+  <button id="help-toggle" aria-label="Abrir ajuda">?</button>
+  <div id="help-content" aria-hidden="true">
+    <h3>Ajuda</h3>
+    <p>Tem alguma dúvida? Veja algumas perguntas comuns:</p>
+    <ul>
+      <li><strong>Como faço para comprar?</strong> Selecione o produto e clique em Comprar.</li>
+      <li><strong>Como criar conta?</strong> Clique em Cadastrar e preencha o formulário.</li>
+      <li><strong>Problemas no login?</strong> Verifique seu e-mail e senha ou recupere a senha.</li>
+    </ul>
+    <p>Ou envie sua dúvida:</p>
+    <form id="help-form">
+      <textarea id="help-message" placeholder="Digite sua mensagem aqui..." required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const helpToggle = document.getElementById('help-toggle');
+  const helpContent = document.getElementById('help-content');
+  const helpForm = document.getElementById('help-form');
+
+  helpToggle.addEventListener('click', () => {
+    const isVisible = helpContent.style.display === 'block';
+    helpContent.style.display = isVisible ? 'none' : 'block';
+    helpToggle.setAttribute('aria-expanded', !isVisible);
+    helpContent.setAttribute('aria-hidden', isVisible);
+  });
+
+  helpForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = document.getElementById('help-message').value.trim();
+
+    if (message) {
+      alert('Mensagem enviada! Obrigado pelo contato.');
+      helpForm.reset();
+      helpContent.style.display = 'none';
+      helpToggle.setAttribute('aria-expanded', false);
+      helpContent.setAttribute('aria-hidden', true);
+      // Aqui você pode integrar envio real para backend ou email
+    }
+  });
+
+  // Fecha ajuda se clicar fora
+  document.addEventListener('click', (e) => {
+    if (!helpContent.contains(e.target) && e.target !== helpToggle) {
+      helpContent.style.display = 'none';
+      helpToggle.setAttribute('aria-expanded', false);
+      helpContent.setAttribute('aria-hidden', true);
+    }
+  });
+</script>
+
 </body>
 </html>

@@ -5,87 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cadastro - Kashimozin Design</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- SDK do EmailJS -->
-  <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
-  <script>
-    (function(){
-      emailjs.init("SEU_USER_ID_DO_EMAILJS"); 
-      // Substitua "SEU_USER_ID_DO_EMAILJS" pelo seu User ID obtido no painel do EmailJS
-    })();
-  </script>
 </head>
 <body>
 
-  <header>
-    <a href="index.html">
-      <img class="logo" src="src/imagens/Logotipo_para_Área_de__Tecnologia_e_Games_Moderno_Branco_e_Vermelho-removebg-preview.png" alt="Logo">
-    </a>
-    <nav class="navbar">
-      <a href="index.html#produtos">Produtos</a>
-      <a href="https://instagram.com/kashimo.__" target="_blank">Instagram</a>
-      <a href="checkout.html">🛒 Carrinho</a>
-    </nav>
-  </header>
+  <div class="login-page">
+    <div class="login-container">
+      <h1 class="login-title">Criar Conta</h1>
 
-  <main class="login-container">
-    <h1>Cadastro</h1>
-    <form id="form-cadastro">
-      <label for="nome">Nome Completo</label>
-      <input type="text" id="nome" placeholder="Seu nome completo" required />
+      <form id="form-register" class="login-form">
+        <label for="nome">Nome Completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
 
-      <label for="email-cad">Email</label>
-      <input type="email" id="email-cad" placeholder="seu@email.com" required />
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Digite seu email" required />
 
-      <label for="senha-cad">Senha</label>
-      <input type="password" id="senha-cad" placeholder="••••••••" required />
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required />
 
-      <label for="senha-confirm">Confirmar Senha</label>
-      <input type="password" id="senha-confirm" placeholder="••••••••" required />
+        <label for="confirmar-senha">Confirmar Senha</label>
+        <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Confirme a senha" required />
 
-      <button type="submit" class="btn-comprar">Cadastrar</button>
-    </form>
+        <button type="submit" class="btn-login">Cadastrar</button>
+      </form>
 
-    <p class="texto-ajuda">
-      Já tem conta? <a href="login.html">Faça login aqui</a>
-    </p>
-  </main>
+      <p class="text-register">Já tem conta? <a href="login.html">Entrar</a></p>
+    </div>
+  </div>
 
   <script>
-    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+    document.getElementById('form-register').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const nome = document.getElementById('nome').value.trim();
-      const email = document.getElementById('email-cad').value.trim();
-      const senha = document.getElementById('senha-cad').value;
-      const senhaConfirm = document.getElementById('senha-confirm').value;
+      const senha = document.getElementById('senha').value;
+      const confirmarSenha = document.getElementById('confirmar-senha').value;
 
-      if (senha !== senhaConfirm) {
-        alert('As senhas não coincidem.');
+      if (senha !== confirmarSenha) {
+        alert('As senhas não coincidem. Por favor, tente novamente.');
         return;
       }
 
-      // Aqui você pode salvar os dados localmente ou enviar a um backend, se tiver.
-      // Para demo, vamos usar EmailJS para enviar e-mail de confirmação.
-
-      const templateParams = {
-        to_name: nome,
-        to_email: email,
-        message: `Olá ${nome}, seu cadastro foi realizado com sucesso!`
-      };
-
-      emailjs.send('SEU_SERVICE_ID', 'SEU_TEMPLATE_ID', templateParams)
-        .then(function(response) {
-          alert('Cadastro realizado! Um e-mail de confirmação foi enviado.');
-          document.getElementById('form-cadastro').reset();
-          window.location.href = 'login.html'; 
-        }, function(error) {
-          console.error('Erro ao enviar e-mail:', error);
-          alert('Ocorreu um erro ao enviar o e-mail de confirmação. Tente novamente.');
-        });
+      alert(`Conta criada com sucesso para ${document.getElementById('nome').value}!`);
+      // Aqui você pode adicionar lógica real para salvar o usuário no banco ou localStorage
+      // Exemplo: salvar localStorage, ou enviar dados para backend
+      window.location.href = 'login.html'; // Redireciona para login após cadastro
     });
   </script>
-  
 
 </body>
 </html>
